@@ -23,6 +23,12 @@ canvas{display:block;width:100%;height:145px;background:#fff;border:1px solid #e
 footer{text-align:center;font:12px Arial;color:#a8798d;margin:22px}
 @media(max-width:600px){.wrap{margin:12px auto;padding:10px}.decor{opacity:.8}.letter{font-size:1rem}}
 .intro-screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:22px;background:radial-gradient(circle at 50% 35%,#fff8fb 0,#f9d7e5 48%,#e9a9c2 100%);transition:opacity .9s ease,visibility .9s ease}.intro-screen.hide{opacity:0;visibility:hidden;pointer-events:none}.intro-card{width:min(520px,100%);text-align:center;padding:clamp(25px,6vw,48px);border:1px solid #fff;border-radius:28px;background:#ffffffd9;box-shadow:0 20px 70px #9b3e6330;backdrop-filter:blur(8px)}.intro-heart{font-size:42px;animation:bob 2.5s ease-in-out infinite}.intro-card h2{margin:10px 0;color:#c43e70;font-size:clamp(2rem,7vw,3rem)}.intro-card p{line-height:1.7;color:#87516a}.intro-card iframe{width:100%;height:152px;border:0;border-radius:13px;margin:10px 0 16px}.intro-note{font:12px Arial;color:#a8798d!important;margin:4px 0 16px}.intro-open{padding:13px 26px;font-size:15px;box-shadow:0 7px 20px #d94f7d40}
+
+/* El reproductor permanece visible y activo después de abrir la carta */
+.intro-screen.playing{inset:auto;left:50%;bottom:12px;transform:translateX(-50%);width:min(370px,calc(100% - 24px));padding:0;background:transparent;opacity:1;visibility:visible;pointer-events:none;z-index:30}
+.intro-screen.playing .intro-card{width:100%;padding:8px 10px;border:1px solid #f1bfd0;border-radius:16px;background:#ffffffed;box-shadow:0 8px 28px #9b3e6340;pointer-events:auto}
+.intro-screen.playing .intro-heart,.intro-screen.playing .ribbon,.intro-screen.playing h2,.intro-screen.playing p,.intro-screen.playing button{display:none}
+.intro-screen.playing iframe{display:block;height:80px;margin:0;border-radius:10px}
 @media print{
 @page{size:A4;margin:14mm}
 body{background:#fff!important;color:#333;overflow:visible}
@@ -70,7 +76,7 @@ footer{margin-top:12px}
 </article><footer>Hecho con amor · Piero & Carmela</footer></main>
 <script>
 for(let i=0;i<20;i++){let e=document.createElement('span');e.className='heart';e.textContent=['♥','♡','💗'][i%3];e.style.left=(Math.random()*100)+'%';e.style.animationDuration=(8+Math.random()*10)+'s';e.style.animationDelay=(-Math.random()*15)+'s';document.getElementById('hearts').appendChild(e)}
-function openLetter(){document.getElementById('introScreen').classList.add('hide');document.body.style.overflowX='hidden'}
+function openLetter(){document.getElementById('introScreen').classList.add('playing');document.body.style.overflowX='hidden'}
 const pads={};
 function setup(id){const c=document.getElementById(id),ctx=c.getContext('2d');function resize(){const old=c.toDataURL();const w=c.clientWidth,h=145;c.width=w*devicePixelRatio;c.height=h*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#783b58';const img=new Image();img.onload=()=>ctx.drawImage(img,0,0,w,h);img.src=old}resize();let drawing=false,last=null;
 function point(ev){const r=c.getBoundingClientRect();return{x:ev.clientX-r.left,y:ev.clientY-r.top}}
